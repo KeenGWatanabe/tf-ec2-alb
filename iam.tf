@@ -1,5 +1,5 @@
 #IAM policy that allows access to rds # (item 1 _policy)
-resource "aws_iam_policy" "rds_access_policy" {
+resource "aws_iam_policy" "ec2_access_policy" {
   name        = "rds-access-policy"
   description = "Policy to allow access to rds"
 
@@ -35,7 +35,7 @@ resource "aws_iam_role" "ec2_rds_roger_role" {
 # (item 2) role_policy_attachment
 resource "aws_iam_role_policy_attachment" "attach_rds_policy" {
   role       = aws_iam_role.ec2_rds_roger_role.name
-  policy_arn = aws_iam_policy.rds_access_policy.arn
+  policy_arn = aws_iam_policy.ec2_access_policy.arn
 } 
 
 #attach IAM role to EC2 instance # (item 3_instance_profile)

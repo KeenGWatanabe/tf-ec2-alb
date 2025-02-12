@@ -10,17 +10,9 @@ output "web_public_dns" {
   depends_on = [aws_eip.roger_web_eip]
 }
 
-output "database_endpoint" {
-  description = "The endpoint of database"
-  value = aws_db_instance.roger_db.address
-}
 
-output "database_port" {
-  description = "The port of database"
-  value = aws_db_instance.roger_db.port
-}
 
 output "aws_iam_policy" {
   description = "aws_iam_policy_arn"
-  value = aws_iam_policy.rds_access_policy.arn  
+  value = aws_iam_policy.ec2_access_policy.arn  
 }
