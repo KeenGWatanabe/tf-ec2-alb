@@ -15,7 +15,7 @@ resource "aws_iam_policy" "ec2_access_policy" {
   })
 }
 
-#IAM role created attach to rds policy #(item 1)
+#IAM role created attach to ec2 policy #(item 1)
 resource "aws_iam_role" "ec2_roger_role" {
   name = "ec2-roger_role"
 

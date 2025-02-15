@@ -106,7 +106,7 @@ resource "aws_security_group" "roger_web_sg" {
     Name = "roger_web_sg"
   }
 }
-#RDS security grp
+#ec2 security grp
 resource "aws_security_group" "roger_ec2_sg" {
   name = "roger_ec2_sg"
   description = "security group for ec2"
@@ -142,9 +142,12 @@ resource "aws_security_group" "roger_ec2_sg" {
 #   skip_final_snapshot = var.settings.database.skip_final_snapshot
 # }
 #8 create key-pair, stored in config folder here
+locals {
+  public_key_files = tolist(fileset(path.module, "*.pub")) #convert fileset() to list
+}
 resource "aws_key_pair" "roger_kp" {
-  key_name = "roger_kp"
-  public_key = file("roger_kp.pem.pub")#public key of ssh
+  key_name   = "roger_kp"
+  public_key = file(element(local.public_key_files, 0)) #element() access items by index
 }
 #create Linux ami
 data "aws_ami" "amazon_linux" {
