@@ -1,6 +1,6 @@
 #IAM policy that allows access to rds # (item 1 _policy)
 resource "aws_iam_policy" "ec2_access_policy" {
-  name        = "rds-access-policy"
+  name        = "ec2-access-policy"
   description = "Policy to allow access to rds"
 
   policy = jsonencode({
@@ -16,8 +16,8 @@ resource "aws_iam_policy" "ec2_access_policy" {
 }
 
 #IAM role created attach to rds policy #(item 1)
-resource "aws_iam_role" "ec2_rds_roger_role" {
-  name = "ec2-rds-roger_role"
+resource "aws_iam_role" "ec2_roger_role" {
+  name = "ec2-roger_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -33,15 +33,15 @@ resource "aws_iam_role" "ec2_rds_roger_role" {
   })
 }
 # (item 2) role_policy_attachment
-resource "aws_iam_role_policy_attachment" "attach_rds_policy" {
-  role       = aws_iam_role.ec2_rds_roger_role.name
+resource "aws_iam_role_policy_attachment" "attach_ec2_policy" {
+  role       = aws_iam_role.ec2_roger_role.name
   policy_arn = aws_iam_policy.ec2_access_policy.arn
 } 
 
 #attach IAM role to EC2 instance # (item 3_instance_profile)
-resource "aws_iam_instance_profile" "ec2_rds_profile" {
-  name = "ec2-rds-profile"
-  role = aws_iam_role.ec2_rds_roger_role.name
+resource "aws_iam_instance_profile" "ec2_roger_profile" {
+  name = "ec2-profile"
+  role = aws_iam_role.ec2_roger_role.name
 }
 #This policy allows describing and listing RDS resources without granting permissions to EC2.
 data "aws_iam_policy_document" "policy_example" {
@@ -55,7 +55,7 @@ resource "aws_instance" "web_app" {
   count         = var.settings.web_app.count
   instance_type = var.settings.web_app.instance_type
   ami           = data.aws_ami.amazon_linux.id #point to main.tf
-  iam_instance_profile = aws_iam_instance_profile.ec2_rds_profile.name
+  iam_instance_profile = aws_iam_instance_profile.ec2_roger_profile.name
 
   tags = {
     Name = "web-app-instance"

@@ -21,15 +21,6 @@ variable "settings" {
   description = "Configuration settings"
   type = map(any)
   default = {
-    # "database" = {
-    #   allocated_storage = 10
-    #   db_name           = "roger_db"
-    #   engine            = "mysql"
-    #   engine_version    = "8.0"
-    #   instance_class    = "db.t3.micro"
-    #   parameter_group_name = "default.mysql8.0"
-    #   skip_final_snapshot = true
-    # },
     "web_app" = {
       count         = 1
       instance_type = "t2.micro"
