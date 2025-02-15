@@ -122,25 +122,7 @@ resource "aws_security_group" "roger_ec2_sg" {
     Name = "roger_ec2_sg"
   }
 }
-# #6 create ec2 subnet grp
-# resource "aws_db_subnet_group" "roger_ec_subnet_group" {
-#  name = "roger_ec_subnet_group" 
-#  description = "ec subnet group for roger"
-#  subnet_ids = [for subnet in aws_subnet.roger_private_subnet : subnet.id]
-# }
-#7 create mySQL RDS
-# resource "aws_db_instance" "roger_db" {
-#   allocated_storage = var.settings.database.allocated_storage
-#   engine = var.settings.database.engine
-#   engine_version = var.settings.database.engine_version
-#   instance_class = var.settings.database.instance_class
-#   db_name = var.settings.database.db_name
-#   username = var.db_username
-#   password = var.db_password
-#   db_subnet_group_name = aws_db_subnet_group.roger_db_subnet_group.id
-#   vpc_security_group_ids = [aws_security_group.roger_db_sg.id]
-#   skip_final_snapshot = var.settings.database.skip_final_snapshot
-# }
+
 #8 create key-pair, stored in config folder here
 resource "aws_key_pair" "roger_kp" {
   key_name = "roger_kp"
