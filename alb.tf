@@ -77,3 +77,19 @@ resource "aws_lb_listener" "app_listener" {
   }
 }
 
+#if for (https) would need eip for fixed ip because of ARN call
+# ALB Listener (HTTPS)
+# resource "aws_lb_listener" "app_listener_https" {
+#   load_balancer_arn = aws_lb.app_lb.arn
+#   port              = 443
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"
+#   certificate_arn   = "arn:aws:acm:region:account-id:certificate/certificate-id" # Replace with your SSL certificate ARN
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.app_tg.arn
+#   }
+#   tags = {
+#     Name = "app-listener-https"
+#   }
+# }
