@@ -9,4 +9,4 @@ private_subnet_cidr = [ "10.0.101.0/24",
     "10.0.103.0/24",
     "10.0.104.0/24" ]
 
-
+aws_key_pair = "roger_kp"

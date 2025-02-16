@@ -46,3 +46,8 @@ variable "my_ip" {
   sensitive = true
 }
 
+variable "aws_key_pair" {
+  description = "assigned key pair name"
+  type = string
+  sensitive = true
+}
