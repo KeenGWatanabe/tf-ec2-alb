@@ -87,9 +87,16 @@ resource "aws_security_group" "roger_web_sg" {
     to_port     = "22"
     protocol    = "tcp"
     cidr_blocks = [local.my_public_ip] #fetching my_ip code
+    from_port   = "22"
+    to_port     = "22"
+    protocol    = "tcp"
+    cidr_blocks = [local.my_public_ip] #fetching my_ip code
   }
   ingress {
     description = "allow all traffic thro HTTP"
+    from_port   = "80"
+    to_port     = "80"
+    protocol    = "tcp"
     from_port   = "80"
     to_port     = "80"
     protocol    = "tcp"
@@ -97,6 +104,9 @@ resource "aws_security_group" "roger_web_sg" {
   }
   egress {
     description = "allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -110,8 +120,15 @@ resource "aws_security_group" "roger_web_sg" {
 resource "aws_security_group" "roger_ec2_sg" {
   name = "roger_ec2_sg"
   description = "security group for ec2"
+resource "aws_security_group" "roger_ec2_sg" {
+  name = "roger_ec2_sg"
+  description = "security group for ec2"
   vpc_id = aws_vpc.roger_vpc.id
   ingress {
+    description = "allow traffic from only web_sg"
+    from_port = "443"
+    to_port   = "443"
+    protocol  = "tcp"
     description = "allow traffic from only web_sg"
     from_port = "443"
     to_port   = "443"
@@ -119,6 +136,28 @@ resource "aws_security_group" "roger_ec2_sg" {
     security_groups = [aws_security_group.roger_web_sg.id]
   }
   tags = {
+    Name = "roger_ec2_sg"
+  }
+}
+# #6 create ec2 subnet grp
+# resource "aws_db_subnet_group" "roger_ec_subnet_group" {
+#  name = "roger_ec_subnet_group" 
+#  description = "ec subnet group for roger"
+#  subnet_ids = [for subnet in aws_subnet.roger_private_subnet : subnet.id]
+# }
+#7 create mySQL RDS
+# resource "aws_db_instance" "roger_db" {
+#   allocated_storage = var.settings.database.allocated_storage
+#   engine = var.settings.database.engine
+#   engine_version = var.settings.database.engine_version
+#   instance_class = var.settings.database.instance_class
+#   db_name = var.settings.database.db_name
+#   username = var.db_username
+#   password = var.db_password
+#   db_subnet_group_name = aws_db_subnet_group.roger_db_subnet_group.id
+#   vpc_security_group_ids = [aws_security_group.roger_db_sg.id]
+#   skip_final_snapshot = var.settings.database.skip_final_snapshot
+# }
     Name = "roger_ec2_sg"
   }
 }
